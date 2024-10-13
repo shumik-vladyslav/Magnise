@@ -1,0 +1,33 @@
+<div class="page">
+  <div *ngIf="(selectedInstrument$ | async) as instrument" class="container">
+    <div class="select-section">
+      <select (change)="onChangePair($event)">
+        <option *ngFor="let item of instrumentsList" [value]="item.id">
+          {{ item.symbol }}
+        </option>
+      </select>
+    </div>
+  
+    <div class="card data-card">
+      <h3 class="card-title">Market data</h3>
+      <div class="data-wrapper">
+        <div class="data-row">
+          <span class="data-title">Symbol:</span>
+          <span class="data-value">{{instrument.symbol}}</span>
+        </div>
+        <div class="data-row">
+          <span class="data-title">Price:</span>
+          <span class="data-value">{{lastPrice}}</span>
+        </div>
+        <div class="data-row">
+          <span class="data-title">Time:</span>
+          <span class="data-value">{{((currentDate$ | async) | date : 'yyyy-MM-dd HH:mm:ss')}}</span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card chart-card">
+      <h3 class="card-title">Chart data</h3>
+        <app-smart-chart [instrumentId]="instrument.id" (getLastData)="getLastData($event)"></app-smart-chart>
+    </div>
+</div>
